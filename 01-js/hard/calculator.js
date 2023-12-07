@@ -18,6 +18,7 @@
 */
 
 
+
 /*
 Algorithm:
 
@@ -40,6 +41,9 @@ class Calculator {
 
   constructor(){
     this.result = 0; // Initiating the variable
+    this.validChars = "0123456789+-/*().";
+    this.oprtr = "+-/*";
+    this.num = "0123456789.";
   }
 
   add(a){
@@ -52,6 +56,9 @@ class Calculator {
     this.result *= a;
   }
   divide(a){
+    if(a==0){
+      throw new CheckCondition("Division by 0 encountered");
+    }
     this.result /= a;
   }
   clear(){
@@ -60,16 +67,11 @@ class Calculator {
   getResult(){
     return this.result;
   }
-  
-  validString(str_input){
-  // Error Handling in the string
-    let str = str_input.split(" ").join("");
+   // Function to check if the string contains all the valid characters.
+  validCharacters(str){
     let brackets = "";
-    let validChars = "0123456789+-/*()";
-
-    // Valid Characters
     for(let i=0;i<str.length;i++){
-      if(!validChars.includes(str[i])){
+      if(!this.validChars.includes(str[i])){
           throw new CheckCondition("Invalid characters...");
       } else {
           if(str[i]=='(' || str[i]==')'){
@@ -77,8 +79,11 @@ class Calculator {
           }
       }
     }
+    return brackets;
+  }
 
-    //Valid Brackets
+  // The brackets are valid for the string.
+  validBrackets(brackets){
     let stk = [];
     for(let i=0;i<brackets.length;i++){
           if(brackets[i]!='(' && i == 0){
@@ -96,30 +101,31 @@ class Calculator {
     if(stk.length > 0){
       throw new CheckCondition("Misplaced or Mismatched brackets.");
     }
+  }
 
-    //No operators together
-    const oprtr = "+-/*";
+  validOperatorPositions(str){
     for(let i=0;i<str.length-1;i++){
-      if(oprtr.includes(str[i]) && oprtr.includes(str[i+1])){
+      if(this.oprtr.includes(str[i]) && this.oprtr.includes(str[i+1])){
           
          throw new CheckCondition("No two operators must be together");
           
       }
     }
-    // No two numbers together after a space.
+  }
 
-    const num = "0123456789";
+  validOperandPositions(str_input){
+        
     let expectedOperator = false;
     for(let i=0;i<str_input.length;i++){
-      if((!expectedOperator && oprtr.includes(str_input[i])) || (expectedOperator && num.includes(str_input[i]))){
+      if((!expectedOperator && this.oprtr.includes(str_input[i])) || (expectedOperator && this.num.includes(str_input[i]))){
           throw new CheckCondition("Misplaced operands");
          
       }
       // Changing the expected character value
       if(str_input[i] !=' ' && str_input[i]!='(' && str_input[i]!=')'){
-          if(i<=str_input.length-1 && !num.includes(str_input[i+1])){
+          if(i<=str_input.length-1 && !this.num.includes(str_input[i+1])){
               expectedOperator = !expectedOperator;
-          }else if(oprtr.includes(str_input[i])){ // We would not checknext char if the current character is operator.
+          }else if(this.oprtr.includes(str_input[i])){ // We would not check next char if the current character is operator.
               expectedOperator = !expectedOperator;
           }
           
@@ -127,7 +133,9 @@ class Calculator {
           continue;
       }
     }
+  }
 
+  modifyInputString(str){
     // Count of operands and operators differ by 1.
     let oprtr_count = 0;
     let operand_cnt = 0;
@@ -135,11 +143,11 @@ class Calculator {
     let ret_string = "";
     for(let i=0;i<str.length;i++){
       if(str[i] != '(' && str[i] != ')'){
-          if(oprtr.includes(str[i])){
+          if(this.oprtr.includes(str[i])){
               oprtr_count++;
               ret_string = ret_string+str[i]+" ";
           }else{
-              while(i<str.length-1 && num.includes(str[i+1])){
+              while(i<str.length-1 && this.num.includes(str[i+1])){
                   ret_string =ret_string+ str[i];
                   i++;
               }
@@ -160,22 +168,111 @@ class Calculator {
     }
 
     return ret_string;
+
+  }
+  validString(str_input){
+
+  // Error Handling in the string
+    let str = str_input.split(" ").join("");
+    //Valid characters
+    let brackets = this.validCharacters(str);
+    
+    //Valid Brackets
+    this.validBrackets(brackets);
+
+    //No operators together
+
+    this.validOperatorPositions(str);
+   
+    // No two numbers together after a space.
+
+    this.validOperandPositions(str_input);
+
+    // Return the final modified string if the count of operator and operands is valid.
+
+    return this.modifyInputString(str);
+    
     
   }
+
+  infixToPostfix(arr){
+    let ret = [];
+    let stk = [];
+    let nums = "0123456789";
+   
+    for(let i=0;i<arr.length;i++){
+        let curr_char = arr[i];
+        if(curr_char.match("[+-]?([0-9]+([.][0-9]*)?|[.][0-9]+)")){
+          ret.push(parseFloat(curr_char));
+        }
+        else{
+        if(curr_char == '('){
+          stk.push(curr_char);
+        } else if(curr_char== ')'){
+          let x = stk.pop();          
+          while(x!='('){
+            ret.push(x);
+            x = stk.pop();
+          }
+        } else {
+          if(curr_char == '*' || curr_char == '/'){
+            while(stk[stk.length-1] == '*' || stk[stk.length-1]=='/'){
+              ret.push(stk.pop());
+            }
+          } else{
+            while(stk[stk.length-1] == '*' || stk[stk.length-1]=='/' || stk[stk.length-1] == '+' || stk[stk.length-1]=='-'){
+              ret.push(stk.pop());
+            }
+          }
+          stk.push(curr_char);
+        }}
+    }
+
+    while(stk.length!=0){
+      ret.push(stk.pop());
+    }
+    return ret;
+  }
+
+  postfixCalculator(arr){
+    let stk = [];
+    let i =0;
+    for(i=0;i<arr.length-1;i++){
+      if(this.oprtr.includes(arr[i])){
+        let x = stk.pop();
+        let y = stk.pop();
+        if(arr[i] =='+'){
+          stk.push(x+y);
+        } else if(arr[i] =='-'){
+          stk.push(y-x);
+        } else if(arr[i] =='*'){
+          stk.push(x*y);
+        } else{
+          if(x == 0){
+            throw new CheckCondition("Division by 0 encountered...");
+          }
+          stk.push(y/x);
+        }
+      }
+      else{
+        stk.push(arr[i]);
+      }
+    }
+    
+   this.result = stk.pop();
+  }
+
   calculate(str){
 
       try{
       let valid = this.validString(str);
-      console.log(valid);
+      this.postfixCalculator(this.infixToPostfix(valid.split(" ")));
       } catch(err){
-        throw new CheckCondition("Error");
-          console.log(err);
+        throw new CheckCondition(err);
       }
-      
-
-
-
   }
 
 }
+
+
 module.exports = Calculator;
