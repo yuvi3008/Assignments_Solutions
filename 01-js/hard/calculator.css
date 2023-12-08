@@ -1,0 +1,84 @@
+.body{
+    margin: 0;
+}
+
+.test-cases-div{
+    margin-top: 200px;
+    margin-left: 100px;
+    text-align: center;
+    background-color: lightblue;
+    
+    border: 1px solid;
+    border-radius: 3px;
+
+}
+.test-cases-div table{
+    margin: 10px;;
+}
+
+.test-cases-div table td{
+    padding: 4px;
+    font-size: 20px;
+}
+
+.nav-bar{
+    background-color: cadetblue;
+    height: 65px;
+    box-shadow: 2px 3px 15px black;
+    font-size: 20px;
+    padding-top:20px ;
+    text-align: center;
+}
+
+.calculator-div {
+    font-size: 25px;
+    margin-top: 220px;
+    margin-left: 240px;
+    border: 1px solid black;
+    box-shadow: 1px 2px 10px lightsteelblue;
+    height: 250px;
+    width: 500px;
+    text-align: center;
+    border-radius: 10px;
+}
+.calculator-div-heading {
+    font-size: 25px;
+    background-color: lightblue;
+    border-bottom: 5px solid black;
+    padding: 3px;
+    border-radius: 10px;
+}
+
+.calculator-div-fields-text{
+    font-size: 20px;
+    padding: 3px;
+    padding-bottom: 10px;
+    padding-top: 14px;
+    font-weight: 600;
+}
+.calculator-div-fields-textbox{
+    width: 300px;
+    height: 35px;
+    border: 2px solid black;
+    border-radius: 20px;
+    font-weight: bold;
+    background-color: aliceblue;
+    text-align: center;
+    font-size: 15px;
+}
+
+.error{
+    color: red;
+    text-align: center;
+    font-size: 20px;
+    padding-top: 10px;
+}
+
+.btn{
+    width: 130px;
+    font-size: 15px;
+    background-color: cadetblue;
+    border-radius: 60px;
+    font-weight: bolder;
+    margin-top: 15px;
+}

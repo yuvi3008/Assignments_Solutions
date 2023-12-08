@@ -1,0 +1,64 @@
+<html>
+    <head>
+        <title>Calculator</title>
+        <link rel="stylesheet" href="calculator.css">
+    </head>
+    <script src="calculator_extended.js"></script>
+    <body class="body">
+        <div class="nav-bar"> YUVRAJ SINGH THAKUR </div>
+        <div style="display: flex; justify-content: flex-start;">
+            <div class="test-cases-div">
+                <h2>TEST CASES</h2>
+                <table>
+                <tr>
+                    <td><input type="radio" name="testcase" id="radiobtn" onclick="solve('(3+(8*4)/((6-2)*(2)))')"></td>
+                    <td>(3+(8*4)/((6-2)*(2)))</td>
+                </tr>
+                <tr>
+                    <td><input type="radio" name="testcase" id="radiobtn" onclick="solve('(3+(8*4$)/((6-2)*(2)))')"> </td>
+                    <td>(3+(8*4$)/((6-2)*(2)))</td>
+                </tr>
+                <tr>
+                    <td><input type="radio" name="testcase" id="radiobtn" onclick="solve('(3+(8*4)/((6-6)*(2)))')"> </td>
+                    <td>(3+(8*4)/((6-6)*(2)))</td>
+                </tr>
+                <tr>
+                    <td><input type="radio" name="testcase" id="radiobtn" onclick="solve(`(3+(8*4)/((6-2)*(2))`)"> </td>
+                    <td>(3+(8*4)/((6-2)*(2))</td>
+                </tr>
+                <tr>
+                    <td><input type="radio" name="testcase" id="radiobtn" onclick="solve('(3++(8*4)/((6-2)*(2)))')"></td>
+                    <td>(3++(8*4)/((6-2)*(2)))</td>
+                </tr>
+                <tr>
+                    <td><input type="radio" name="testcase" id="radiobtn" onclick="solve('(3+(8*4)/((6-2)*(2 3)))')"></td>
+                    <td>(3+(8*4)/((6-2)*(2 3)))</td>
+                </tr>
+                <tr>
+                    <td><input type="radio" name="testcase" id="radiobtn" onclick="solve('(3+(8*4)/((6-2)*(2+)))')"></td>
+                    <td>(3+(8*4)/((6-2)*(2+)))</td>
+                </tr>
+                </table>
+            </div>
+            <div class="calculator-div" class="calculator-div">
+                    <div class="calculator-div-heading">EXPRESSION CALCULATOR</div> 
+                    <div class="calculator-div-fields-text">Enter expression</div>
+                    <div>
+                        <input type="text" id="expression" oninput="clearRadioBtn()" class="calculator-div-fields-textbox">
+                    </div>
+                    <div id="errorDiv" class="error">
+
+                    </div>
+                    <div class="calculator-div-fields-text">
+                        Result: 
+                        <span id="result">
+                        
+                        </span>
+                    </div>
+                    <div>
+                        <button onclick="btnClick()" class="btn">Calculate</button>
+                    </div>
+            </div>
+        </div>
+    </body>
+</html>

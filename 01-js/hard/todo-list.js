@@ -11,6 +11,9 @@
 */
 //Algorithm.
 
+
+///Test commit
+
 class Errors extends Error{
   constructor(msg){
     super(msg);
