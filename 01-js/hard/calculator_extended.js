@@ -268,7 +268,7 @@ class CheckCondition extends Error {
         }
       }
       
-     this.result = stk.pop();
+     this.result = stk.pop().toFixed(2);
     }
   
     calculate(str){
