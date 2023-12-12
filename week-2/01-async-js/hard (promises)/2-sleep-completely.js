@@ -3,6 +3,22 @@
  * During this time the thread should not be able to do anything else.
  */
 
-function sleep (seconds) {
+function sleep (milliseconds) {
 
+
+
+    return new Promise(resolve =>{
+        let startTime = Date.now();
+        while(true){
+            let endTime  = Date.now();
+            if(endTime - startTime >= milliseconds){
+                break;
+            }
+        }
+        resolve();
+    })
 }
+
+
+module.exports = sleep;
+
